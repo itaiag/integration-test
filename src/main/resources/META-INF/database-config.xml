@@ -1,0 +1,12 @@
+<?xml version="1.0"  encoding="ISO-8859-1"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="RootSUTModule" class="org.jsystemtest.RootSUTModule" >
+		<constructor-arg ref="secondLevel"/>
+	</bean>
+	
+	<bean id="secondLevel" class="org.jsystemtest.SecondLevelSUTModule" />
+
+</beans>
