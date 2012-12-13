@@ -11,6 +11,25 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.12.4</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.activemq.tooling</groupId>
+				<artifactId>maven-activemq-plugin</artifactId>
+				<version>5.7.0</version>
+				<configuration>
+					<configUri>xbean:file:../src/main/resources/activemq.xml</configUri>
+					<fork>false</fork>
+					<systemProperties>
+						<property>
+							<name>javax.net.ssl.keyStorePassword</name>
+							<value>password</value>
+						</property>
+						<property>
+							<name>org.apache.activemq.default.directory.prefix</name>
+							<value>./target/</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
 		</plugins>
 	</reporting>
 	<build>
@@ -24,53 +43,17 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<id>runExternalScript</id>
-						<phase>pre-integration-test</phase>
-						<configuration>
-							<target>
-								<exec executable="script.bat" spawn="true">
-								</exec>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.3.1</version>
-				<executions>
-					<execution>
-						<id>runJboss</id>
-						<phase>pre-integration-test</phase>
-						<configuration>
-							<container>
-								<home>C:\Users\abraho\Desktop\jboss-as-7.1.1.Final</home>
-								<containerId>jboss71x</containerId>
-							</container>
-							<deployables>
-								<deployable>
-									<location>jboss-as-helloworld.war</location>
-									<type>war</type>
-								</deployable>
-							</deployables>
-						</configuration>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
+			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.6</version> 
+				<executions> <execution> <id>runExternalScript</id> <phase>pre-integration-test</phase> 
+				<configuration> <target> <exec executable="script.bat" spawn="true"> </exec> 
+				</target> </configuration> <goals> <goal>run</goal> </goals> </execution> 
+				</executions> </plugin> <plugin> <groupId>org.codehaus.cargo</groupId> <artifactId>cargo-maven2-plugin</artifactId> 
+				<version>1.3.1</version> <executions> <execution> <id>runJboss</id> <phase>pre-integration-test</phase> 
+				<configuration> <container> <home>C:\Users\abraho\Desktop\jboss-as-7.1.1.Final</home> 
+				<containerId>jboss71x</containerId> </container> <deployables> <deployable> 
+				<location>jboss-as-helloworld.war</location> <type>war</type> </deployable> 
+				</deployables> </configuration> <goals> <goal>start</goal> </goals> </execution> 
+				</executions> </plugin> -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
@@ -101,6 +84,11 @@
 			<artifactId>spring-test</artifactId>
 			<version>3.1.2.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms-api</artifactId>
+			<version>1.1-rev-1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.gatein.common</groupId>
@@ -118,9 +106,14 @@
 			<version>3.1.2.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
-			<version>1.1</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.1.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
 		</dependency>
 	</dependencies>
 </project>

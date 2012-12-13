@@ -23,11 +23,12 @@
 			<value>1</value>
 		</property>
 	</bean>
-	
-	<bean id="JmsSystemModule" class="com.rsa.fa.blackbox.integration.jms.JmsSystemModule" >
+
+	<bean id="JmsSystemModule"
+		class="com.rsa.fa.blackbox.integration.systemModule.jms.JmsSystemModule">
 		<constructor-arg ref="connectionFactory" />
-	
-	
+
+
 	</bean>
 
 	<bean id="connectionFactory"
@@ -37,26 +38,6 @@
 		<property name="cacheProducers" value="false" />
 	</bean>
 
-	<bean id="jmsProducer" class="org.springframework.jms.core.JmsTemplate">
-		<constructor-arg ref="connectionFactory" />
-		<property name="pubSubDomain" value="false" />
-	</bean>
-
-	<context:property-placeholder location="classpath:/jms.properties" />
-
-
-	<bean id="sendJmsMessageBean"
-		class="com.rsa.fa.blackbox.infrastructure.jms.SendJmsMessageBean">
-		<property name="jmsProducer" ref="jmsProducer" />
-	</bean>
-
-	<jms:listener-container acknowledge="auto">
-		<jms:listener destination="Analyzer.Collector.res" ref="textMessageListener" />
-	</jms:listener-container>
-
-
-	<!-- Start Listeners -->
-	<bean id="textMessageListener"
-		class="com.rsa.fa.blackbox.infrastructure.jms.TextMessageListener" />
-
 </beans>
+
+	
