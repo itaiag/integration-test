@@ -11,3 +11,6 @@
 
 #Binaries
 target
+
+#TestNG
+test-output/

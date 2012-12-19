@@ -55,12 +55,25 @@
 				</deployables> </configuration> <goals> <goal>start</goal> </goals> </execution> 
 				</executions> </plugin> -->
 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.12</version>
+				<configuration>
+					<properties>
+						<property>
+							<name>usedefaultlisteners</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>listener</name>
+							<value>org.uncommons.reportng.HTMLReporter</value>
+						</property>
+					</properties>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<workingDirectory>target/</workingDirectory>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -78,7 +91,6 @@
 			<artifactId>spring-context</artifactId>
 			<version>3.1.2.RELEASE</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -89,7 +101,6 @@
 			<artifactId>jms-api</artifactId>
 			<version>1.1-rev-1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.gatein.common</groupId>
 			<artifactId>common-logging</artifactId>
@@ -114,6 +125,28 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uncommons</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.testng</groupId>
+					<artifactId>testng</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

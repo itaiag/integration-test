@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Sanity" verbose="1" >
+  <test name="Feature" >
+    <classes>
+       <class name="org.jsystemtest.tests.IntegrationTests" />
+    </classes>
+  </test>
+</suite>
+ 
