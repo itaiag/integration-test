@@ -7,29 +7,37 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
-	<!-- <amq:broker useJmx="false" persistent="false"> <amq:transportConnectors> 
-		<amq:transportConnector uri="tcp://localhost:0" /> </amq:transportConnectors> 
-		</amq:broker> -->
-	<!-- a pooling based JMS provider -->
-	<bean id="jmsFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+	<!-- JMS Connection to Sonic -->
+
+	<bean id="sonicConnectionFactory" class='progress.message.jclient.QueueConnectionFactory'>
 		<property name="brokerURL">
-			<value>tcp://localhost:61616</value>
+			<value>${jms.broker.url}</value>
+		</property>
+		<property name="defaultUser">
+			<value>${jms.user.name}</value>
+		</property>
+		<property name="defaultPassword">
+			<value>${jms.user.password}</value>
+		</property>
+		<property name="prefetchCount">
+			<value>1</value>
 		</property>
 	</bean>
 
-	<bean id="JmsSystemModule" class="org.jsystemtest.systemModule.jms.JmsSystemModule">
-		<constructor-arg ref="jmsFactory" />
+	<bean id="JmsSystemModule"
+		class="com.rsa.fa.blackbox.integration.systemModule.jms.JmsSystemModule">
+		<constructor-arg ref="connectionFactory" />
 
 
 	</bean>
-<!-- 
+
 	<bean id="connectionFactory"
 		class="org.springframework.jms.connection.CachingConnectionFactory">
-		<property name="targetConnectionFactory" ref="jmsFactory" />
+		<property name="targetConnectionFactory" ref="sonicConnectionFactory" />
 		<property name="sessionCacheSize" value="10" />
 		<property name="cacheProducers" value="false" />
 	</bean>
- -->
+
 </beans>
 
 	

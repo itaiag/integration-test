@@ -7,13 +7,19 @@
 	<context:annotation-config />
 	<context:component-scan use-default-filters="true"
 		resource-pattern="**/*.class"
-		base-package="com.rsa.fa.blackbox.analyzer.collector, com.rsa.fa.blackbox.infrastructure.model.domain" />
-
+		base-package="org.jsystemtest" />
+<!-- 
+<context:property-placeholder
+		location="classpath:/jms.properties,classpath:/jdbc.properties" />
+		
+		 -->
 	<context:property-placeholder
 		location="classpath:/connection.properties,classpath:/jms.properties,classpath*:META-INF/config/**/*.properties" />
 
 	<import resource="classpath:/META-INF/jms-config.xml" />
+	<!--  
 	<import resource="classpath:/META-INF/database-config.xml" />
+	-->
 
 </beans>
 

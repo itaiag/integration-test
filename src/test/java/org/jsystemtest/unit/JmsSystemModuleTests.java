@@ -6,11 +6,11 @@ import junit.framework.Assert;
 
 import org.jsystemtest.AbstractIntegrationTestCase;
 import org.jsystemtest.systemModule.jms.JmsSystemModule;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.support.converter.MessageType;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * <b>Package:</b> com.rsa.fa.blackbox.integration<br/>
@@ -62,8 +62,8 @@ public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 		for (int i = 0; i < numOfMessages; i++) {
 			jms.sendMessage(QUEUE_NAME, MessageType.TEXT, "testFlushQueue" + i);
 		}
-		Assert.assertEquals(3, jms.browseQueue(QUEUE_NAME).size());
-		Assert.assertEquals(3, jms.browseQueue(QUEUE_NAME).size());
+		Assert.assertEquals(numOfMessages, jms.browseQueue(QUEUE_NAME).size());
+		Assert.assertEquals(numOfMessages, jms.browseQueue(QUEUE_NAME).size());
 		
 		Reporter.log("Success", true);
 		
