@@ -5,7 +5,7 @@ import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
-public class StdoutReporter extends RunListener implements Reporter {
+public class StdoutReporter extends RunListener implements ReporterI {
 
 	private static final String SEPARATOR = "-----------------------------------------------";
 

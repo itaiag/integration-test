@@ -1,6 +1,6 @@
 package org.jsystemtest.infra.configuration;
 
-import org.jsystemtest.infra.report.Reporter;
+import org.jsystemtest.infra.report.ReporterI;
 import org.jsystemtest.infra.report.ReportersManager;
 import org.jsystemtest.infra.utils.BeanUtils;
 
@@ -23,9 +23,9 @@ public class Configurator {
 		final String reporterClasses = IntegrationProperites.getInstance().getOptionValue(FrameworkOptions.REPORTER_CLASSES);
 		if (reporterClasses != null) {
 			for (String reportClass : reporterClasses.split(";")) {
-				Object reporter = BeanUtils.createInstanceFromString(reportClass, Reporter.class);
+				Object reporter = BeanUtils.createInstanceFromString(reportClass, ReporterI.class);
 				if (reporter != null) {
-					ReportersManager.getInstance().addReporter((Reporter) reporter);
+					ReportersManager.getInstance().addReporter((ReporterI) reporter);
 				}
 			}
 		}

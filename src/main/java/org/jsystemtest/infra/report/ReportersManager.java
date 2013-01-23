@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jsystemtest.infra.report.Reporter.Status;
+import org.jsystemtest.infra.report.ReporterI.Status;
 import org.jsystemtest.infra.runner.RunListenerManager;
 import org.junit.runner.notification.RunListener;
 
@@ -17,16 +17,16 @@ public class ReportersManager {
 
 	private static SimpleDateFormat timeStampFormatter = new SimpleDateFormat("HH:mm:ss: ");
 
-	private List<Reporter> reporters;
+	private List<ReporterI> reporters;
 
 //	private String[] reportersClasses;
 
 	private ReportersManager() {
 	}
 
-	public void addReporter(Reporter reporter) {
+	public void addReporter(ReporterI reporter) {
 		if (null == reporters) {
-			reporters = new ArrayList<Reporter>();
+			reporters = new ArrayList<ReporterI>();
 		}
 		reporters.add(reporter);
 		if (reporter instanceof RunListener) {
@@ -78,7 +78,7 @@ public class ReportersManager {
 		}
 		if (reporters != null) {
 			title = timeStampFormatter.format(new Date()) + title;
-			for (Reporter reporter : reporters) {
+			for (ReporterI reporter : reporters) {
 				reporter.report(title, message, status);
 			}
 		}
