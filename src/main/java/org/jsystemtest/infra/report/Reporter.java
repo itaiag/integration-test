@@ -17,6 +17,21 @@ public class Reporter extends org.testng.Reporter {
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
 	}
 
+	public enum Style {
+		BOLD("b"), ITALIC("i");
+
+		private final String value;
+
+		private Style(String value) {
+			this.value = value;
+		}
+
+	}
+
+	public enum Color {
+		RED, BLUE, YELLOW, GREEN
+	}
+
 	/**
 	 * Appending <code>s</code> to the report
 	 * 
@@ -26,15 +41,65 @@ public class Reporter extends org.testng.Reporter {
 		log(s, true);
 	}
 
+	public static void log(final String s, Style style) {
+		if (null != style) {
+			System.out.println(s);
+			logHtml(appendStyleParagraph(s, style), false);
+		} else {
+			log(s);
+		}
+
+	}
+
+	private static String appendStyleParagraph(String s, Style style) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("<p>");
+		sb.append("<").append(style.value).append(">");
+		sb.append(s);
+		sb.append("</").append(style.value).append(">");
+		sb.append("</p>");
+		return sb.toString();
+	}
+
+	private static String appendColorParagraph(String s, Color color) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("<p style='color:").append(color.name()).append("'>");
+		sb.append(s);
+		sb.append("</p>");
+		return sb.toString();
+
+	}
+
+	public static void log(final String s, Style style, Color color) {
+		String newS = s;
+		if (null != color) {
+			newS = appendColorParagraph(newS, color);
+		}
+		if (null != style) {
+			newS = appendStyleParagraph(newS, style);
+		}
+		if (style != null || color != null) {
+			logHtml(newS, false);
+			System.out.println(s);
+		} else {
+			log(s);
+		}
+	}
+
+	public static void logHtml(String htmlS, boolean logToStandardOut) {
+		setEscapeHtml(false);
+		log(htmlS, logToStandardOut);
+		setEscapeHtml(true);
+
+	}
+
 	/**
 	 * Appending <code>htmlS</code> as HTML code to the report
 	 * 
 	 * @param htmlS
 	 */
 	public static void logHtml(String htmlS) {
-		setEscapeHtml(false);
-		log(htmlS);
-		setEscapeHtml(true);
+		logHtml(htmlS, true);
 	}
 
 	/**
@@ -76,7 +141,8 @@ public class Reporter extends org.testng.Reporter {
 		if (null == title || title.isEmpty()) {
 			title = file.getName();
 		}
-		logHtml("<a href='" + newFile.getName() + "'>" + title + "</a>");
+		System.out.println(title);
+		logHtml("<a href='" + newFile.getName() + "'>" + title + "</a>",false);
 	}
 
 }
