@@ -1,5 +1,8 @@
 package org.jsystemtest.tests;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.jsystemtest.infra.report.Reporter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -44,8 +47,10 @@ public class IntegrationTests extends AbstractTestNGSpringContextTests {
 	}
 	
 	@Test
-	public void testReportOutput(){
-		Reporter.logFile(null);
+	public void testReportOutput() throws IOException{
+		File myFile = new File("myFile.txt");
+		myFile.createNewFile();
+		Reporter.logFile("Link to my file",myFile);
 	}
 
 }
