@@ -1,10 +1,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
 <suite name="Sanity" verbose="1" >
-  <test name="Feature" >
+  <test name="JMS" >
     <classes>
-       <class name="org.jsystemtest.tests.IntegrationTests" />
+       <class name="org.jsystemtest.integration.JmsSystemModuleTests" />
     </classes>
   </test>
+    <test name="BDD Example" >
+    <classes>
+       <class name="org.jsystemtest.integration.BDDExampleTest" />
+    </classes>
+  </test>
+  
 </suite>
  

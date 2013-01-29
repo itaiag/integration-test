@@ -1,6 +1,6 @@
 package org.jsystemtest;
 
-import org.jsystemtest.infra.report.ReportersManager;
+import org.jsystemtest.infra.junit.report.ReportersManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 

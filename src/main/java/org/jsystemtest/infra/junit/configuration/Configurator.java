@@ -1,8 +1,8 @@
-package org.jsystemtest.infra.configuration;
+package org.jsystemtest.infra.junit.configuration;
 
-import org.jsystemtest.infra.report.ReporterI;
-import org.jsystemtest.infra.report.ReportersManager;
-import org.jsystemtest.infra.utils.BeanUtils;
+import org.jsystemtest.infra.junit.report.ReporterI;
+import org.jsystemtest.infra.junit.report.ReportersManager;
+import org.jsystemtest.infra.junit.utils.BeanUtils;
 
 public class Configurator {
 

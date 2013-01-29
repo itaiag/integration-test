@@ -1,4 +1,4 @@
-package org.jsystemtest.infra.report;
+package org.jsystemtest.infra.junit.report;
 
 import static org.junit.Assert.fail;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jsystemtest.infra.report.ReporterI.Status;
+import org.jsystemtest.infra.junit.report.ReporterI.Status;
 import org.jsystemtest.infra.runner.RunListenerManager;
 import org.junit.runner.notification.RunListener;
 

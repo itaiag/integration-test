@@ -1,4 +1,4 @@
-package org.jsystemtest.infra.configuration;
+package org.jsystemtest.infra.junit.configuration;
 
 import java.io.File;
 import java.io.FileInputStream;

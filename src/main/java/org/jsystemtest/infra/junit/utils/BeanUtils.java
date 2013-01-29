@@ -1,4 +1,4 @@
-package org.jsystemtest.infra.utils;
+package org.jsystemtest.infra.junit.utils;
 
 
 public class BeanUtils {

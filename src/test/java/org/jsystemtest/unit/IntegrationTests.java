@@ -1,19 +1,14 @@
-package org.jsystemtest.tests;
+package org.jsystemtest.unit;
 
 import java.io.File;
 import java.io.IOException;
 
-
 import org.jsystemtest.infra.report.Reporter;
 import org.jsystemtest.infra.report.Reporter.Color;
 import org.jsystemtest.infra.report.Reporter.Style;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-@ContextConfiguration(locations = { "classpath:META-INF/blackbox-integration-context.xml" })
-public class IntegrationTests extends AbstractTestNGSpringContextTests {
-
+public class IntegrationTests {
 
 	@Test
 	public void testComplexHTMLReports() {
@@ -32,8 +27,6 @@ public class IntegrationTests extends AbstractTestNGSpringContextTests {
 		myFile.createNewFile();
 		Reporter.logFile("Link to my file", myFile);
 	}
-	
-
 
 	@Test
 	public void testReportColors() {
@@ -41,23 +34,23 @@ public class IntegrationTests extends AbstractTestNGSpringContextTests {
 		Reporter.log("In blue", null, Color.BLUE);
 		Reporter.log("In yellow", null, Color.YELLOW);
 		Reporter.log("In green", null, Color.GREEN);
-		
+
 		Reporter.log("In red", Style.BOLD, Color.RED);
 		Reporter.log("In blue", Style.BOLD, Color.BLUE);
 		Reporter.log("In yellow", Style.BOLD, Color.YELLOW);
 		Reporter.log("In green", Style.BOLD, Color.GREEN);
-		
+
 		Reporter.log("In red", Style.ITALIC, Color.RED);
 		Reporter.log("In blue", Style.ITALIC, Color.BLUE);
 		Reporter.log("In yellow", Style.ITALIC, Color.YELLOW);
 		Reporter.log("In green", Style.ITALIC, Color.GREEN);
 
 	}
-	
+
 	@Test
-	public void testStyle(){
-		Reporter.log("In bold",Style.BOLD);
-		Reporter.log("In italic",Style.ITALIC);
+	public void testStyle() {
+		Reporter.log("In bold", Style.BOLD);
+		Reporter.log("In italic", Style.ITALIC);
 	}
 
 }

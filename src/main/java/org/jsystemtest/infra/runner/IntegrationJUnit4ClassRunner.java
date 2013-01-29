@@ -1,6 +1,6 @@
 package org.jsystemtest.infra.runner;
 
-import org.jsystemtest.infra.configuration.Configurator;
+import org.jsystemtest.infra.junit.configuration.Configurator;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;

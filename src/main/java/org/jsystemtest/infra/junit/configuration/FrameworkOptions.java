@@ -1,4 +1,4 @@
-package org.jsystemtest.infra.configuration;
+package org.jsystemtest.infra.junit.configuration;
 
 public enum FrameworkOptions {
 

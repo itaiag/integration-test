@@ -1,4 +1,4 @@
-package org.jsystemtest.infra.report;
+package org.jsystemtest.infra.junit.report;
 
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.runner.Description;

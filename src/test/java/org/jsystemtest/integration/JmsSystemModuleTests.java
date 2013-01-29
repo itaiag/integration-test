@@ -1,4 +1,4 @@
-package org.jsystemtest.unit;
+package org.jsystemtest.integration;
 
 import javax.jms.Message;
 
@@ -13,11 +13,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * <b>Package:</b> com.rsa.fa.blackbox.integration<br/>
- * <b>Type:</b> JmsSystemModuleTests<br/>
- * <b>Description:</b> <br/>
- * 
- * @author abraho <br/>
  */
 public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 
@@ -64,25 +59,24 @@ public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 		}
 		Assert.assertEquals(numOfMessages, jms.browseQueue(QUEUE_NAME).size());
 		Assert.assertEquals(numOfMessages, jms.browseQueue(QUEUE_NAME).size());
-		
+
 		Reporter.log("Success", true);
-		
-		//Cleaning queue
+
+		// Cleaning queue
 		for (int i = 0; i < numOfMessages; i++) {
 			jms.receiveMessage(QUEUE_NAME, 500);
 		}
-		
+
 	}
-	
+
 	@Test
-	public void testReceiveAllMessages() throws Exception{
+	public void testReceiveAllMessages() throws Exception {
 		for (int i = 0; i < 3; i++) {
 			jms.sendMessage(QUEUE_NAME, MessageType.TEXT, "testFlushQueue" + i);
 		}
 		sleep(1000);
 		Assert.assertEquals(3, jms.recieveAllMessages(QUEUE_NAME).size());
-		
-	}
 
+	}
 
 }

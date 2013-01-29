@@ -3,7 +3,7 @@ package org.jsystemtest.systemModule.database;
 import java.util.List;
 import java.util.Map;
 
-import org.jsystemtest.infra.report.ReportersManager;
+import org.jsystemtest.infra.junit.report.ReportersManager;
 
 public class ResultSetDefaultPrinter implements ResultSetPrinter {
 

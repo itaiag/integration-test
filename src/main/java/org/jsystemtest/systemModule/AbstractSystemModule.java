@@ -1,6 +1,6 @@
 package org.jsystemtest.systemModule;
 
-import org.jsystemtest.infra.report.ReportersManager;
+import org.jsystemtest.infra.junit.report.ReportersManager;
 
 public abstract class AbstractSystemModule {
 	

@@ -1,4 +1,4 @@
-package org.jsystemtest.infra.report;
+package org.jsystemtest.infra.junit.report;
 
 @Deprecated
 public interface ReporterI {
