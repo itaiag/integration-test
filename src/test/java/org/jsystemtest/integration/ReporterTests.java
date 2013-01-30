@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import org.jsystemtest.infra.bdd.BddExecutor;
+import org.jsystemtest.infra.bdd.BddI;
+import org.jsystemtest.infra.bdd.Step;
 import org.jsystemtest.infra.report.Reporter;
 import org.jsystemtest.infra.report.Reporter.Color;
 import org.jsystemtest.infra.report.Reporter.Style;
@@ -12,14 +15,48 @@ import org.testng.annotations.Test;
 public class ReporterTests {
 
 	@Test
-	public void testComplexHTMLReports() {
-		Reporter.logHtml("This is more complex and a lot <b>bigger</b> line that should appear in the report in it original length ");
-		Reporter.logHtml("<b>Bold </b>");
-		Reporter.logHtml("<i>Italic </i>");
-		Reporter.logHtml("Let's play with tables...");
-		Reporter.logHtml("<table><tr><td>one cell</td><td>second cell</td></tr></table>");
-		Reporter.logHtml("Skye is the largest island in the Inner Hebrides of Scotland. Its peninsulas radiate from a mountainous centre dominated by the Cuillins, the rocky slopes of which provide some of the most dramatic mountain scenery in the country. The island has been occupied since the Mesolithic period and its history includes a time of Norse rule and a long period of domination by Clan MacLeod (Dunvegan Castle, the clan's seat, pictured) and Clan Donald. The 18th-century Jacobite risings led to the breaking up of the clan system and subsequent Clearances that replaced entire communities with sheep farms. Resident numbers declined from over 20,000 in the early 19th century to just under 9,000 by the closing decade of the 20th century. The main industries are tourism, agriculture, fishing and whisky-distilling, and the largest settlement is Portree, known for its picturesque harbour. There are links to various nearby islands by ferry and, since 1995, to the mainland by a road bridge. The abundant wildlife includes the golden eagle, red deer and Atlantic salmon. Skye has provided the locations for various novels and feature films and is celebrated in poetry and song");
-		Reporter.logHtml("<a href='https://www.google.com/'>Google</a>");
+	public void testManyLinesInBDD() throws Exception {
+		Reporter.log("This is the first line");
+		Reporter.log("This is the second line");
+		Reporter.log("This is the third line");
+
+		BddExecutor.run(new BddI() {
+
+			@Override
+			@Step(description = "Given description")
+			public void given() throws Exception {
+				Reporter.log("This is the first line");
+				Reporter.log("This is the second line");
+				Reporter.log("This is the third line");
+
+			}
+
+			@Override
+			@Step(description = "When description")
+			public void when() throws Exception {
+				Reporter.log("This is the first line");
+				Reporter.log("This is the second line");
+				Reporter.log("This is the third line");
+
+			}
+
+			@Override
+			@Step(description = "Then description")
+			public void then() throws Exception {
+				Reporter.log("This is the first line");
+				Reporter.log("This is the second line");
+				Reporter.log("This is the third line");
+
+			}
+
+		});
+	}
+
+	@Test
+	public void testManyLines() {
+		Reporter.log("This is the first line");
+		Reporter.log("This is the second line");
+		Reporter.log("This is the third line");
 	}
 
 	@Test
@@ -50,16 +87,24 @@ public class ReporterTests {
 
 	@Test
 	public void testToggle() {
+		String body = generateLines(50, 10);
+		Reporter.log("This is the title", body.toString());
+		Reporter.log("Null body", "", Color.BLUE);
+		Reporter.log(null, "", Color.BLUE);
+	}
+
+	private String generateLines(int numOfLines, int lengthOfLine) {
 		StringBuilder body = new StringBuilder();
-		for (int i = 0; i < 10; i++) {
+		;
+		for (int i = 0; i < numOfLines; i++) {
 			body.append("Line ").append(i).append(" ");
 			Random r = new Random();
-			for (int j = 0; j < 50; j++) {
+			for (int j = 0; j < lengthOfLine; j++) {
 				body.append((char) (r.nextInt(26) + 'a'));
 			}
 			body.append("\n");
 		}
-		Reporter.log("This is the title", body.toString());
+		return body.toString();
 	}
 
 	@Test

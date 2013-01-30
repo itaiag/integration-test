@@ -7,10 +7,10 @@ import junit.framework.Assert;
 import org.jsystemtest.AbstractIntegrationTestCase;
 import org.jsystemtest.infra.bdd.BddI;
 import org.jsystemtest.infra.bdd.Step;
+import org.jsystemtest.infra.report.Reporter;
 import org.jsystemtest.systemModule.jms.JmsSystemModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.support.converter.MessageType;
-import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -27,9 +27,9 @@ public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 
 	@BeforeMethod
 	public void clearResources() throws Exception {
-		Reporter.log("Clearing queue before test", true);
+		Reporter.log("Clearing queue before test");
 		jms.flushQueue(QUEUE_NAME);
-		Reporter.log("Finished clearing queue", true);
+		Reporter.log("Finished clearing queue");
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 		}
 		jms.flushQueue(QUEUE_NAME);
 		Assert.assertNull(jms.receiveMessage(QUEUE_NAME, 1));
-		Reporter.log("Success", true);
+		Reporter.log("Success");
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 			}
 		});
 
-		Reporter.log("Success", true);
+		Reporter.log("Success");
 	}
 
 	@Test

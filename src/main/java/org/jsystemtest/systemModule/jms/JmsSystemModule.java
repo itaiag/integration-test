@@ -13,11 +13,11 @@ import javax.jms.QueueConnectionFactory;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import org.jsystemtest.infra.report.Reporter;
 import org.springframework.jms.core.BrowserCallback;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.support.converter.MessageType;
-import org.testng.Reporter;
 
 /**
  * <b>Package:</b> com.rsa.fa.blackbox.integration.jms<br/>
@@ -61,7 +61,7 @@ public class JmsSystemModule {
 	 *             If message type is not supported
 	 */
 	public void sendMessage(final String queueName, final MessageType type, final Object messageObject) throws Exception {
-		Reporter.log("Sending message from type " + type.name() + " to queue " + queueName, true);
+		Reporter.log("Sending message from type " + type.name() + " to queue " + queueName);
 		jmsTemplate.send(queueName, new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
 				switch (type) {
@@ -99,7 +99,7 @@ public class JmsSystemModule {
 		if (timeout == 0) {
 			timeout = 1;
 		}
-		Reporter.log("Receiving message from queue " + queueName, true);
+		Reporter.log("Receiving message from queue " + queueName);
 		jmsTemplate.setReceiveTimeout(timeout);
 		Message message = jmsTemplate.receive(queueName);
 		if (null != message) {

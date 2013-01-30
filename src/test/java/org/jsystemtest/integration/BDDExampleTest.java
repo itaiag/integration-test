@@ -15,21 +15,21 @@ public class BDDExampleTest {
 			@Override
 			@Step(description = "Given the system is in some state")
 			public void given() throws Exception {
-				Reporter.log("In the given step", true);
+				Reporter.log("In the given step");
 
 			}
 
 			@Override
 			@Step(description = "When we are doing some stuff")
 			public void when() throws Exception {
-				Reporter.log("In the when step", true);
+				Reporter.log("In the when step");
 
 			}
 
 			@Override
 			@Step(description = "Then we expect some thing to be in some state")
 			public void then() throws Exception {
-				Reporter.log("In the then step", true);
+				Reporter.log("In the then step");
 			}
 
 		});

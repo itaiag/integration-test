@@ -1,8 +1,8 @@
-package org.jsystemtest.unit;
+package org.jsystemtest.integration;
 
 import org.jsystemtest.infra.assertion.Assert;
 import org.jsystemtest.infra.assertion.FindTextAssertion;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 public class LogicAssertionTest {
 
@@ -11,7 +11,7 @@ public class LogicAssertionTest {
 		Assert.assertLogic("outer text inner text outer text", new FindTextAssertion("inner text"));
 	}
 
-	@Test(expected = AssertionError.class)
+	@Test(expectedExceptions = { AssertionError.class })
 	public void testUnSuccessfulAssertion() throws Exception {
 		Assert.assertLogic("outer text inn*er text outer text", new FindTextAssertion("inner text"));
 	}

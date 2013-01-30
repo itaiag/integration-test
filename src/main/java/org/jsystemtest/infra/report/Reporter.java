@@ -16,6 +16,7 @@ public class Reporter extends org.testng.Reporter {
 	static {
 		// Allowing adding HTML to the report
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
+		setEscapeHtml(false);
 	}
 
 	public enum Style {
@@ -33,19 +34,39 @@ public class Reporter extends org.testng.Reporter {
 		RED, BLUE, YELLOW, GREEN
 	}
 
+	public void logEscapeHtml(String s) {
+		setEscapeHtml(true);
+		log(s);
+		setEscapeHtml(false);
+
+	}
+
 	/**
 	 * Appending <code>s</code> to the report
 	 * 
 	 * @param s
 	 */
 	public static void log(String s) {
-		log(toHtml(s), true);
+		log(s, false);
+	}
+
+	/**
+	 * Appending <code>s</code> to the report
+	 * 
+	 * @param s
+	 */
+	public static void log(String s, boolean logToStandardOut) {
+		s = s + "\n";
+		org.testng.Reporter.log(toHtml(s), false);
+		if (logToStandardOut) {
+			System.out.println(s);
+		}
 	}
 
 	public static void log(final String s, Style style) {
 		if (null != style) {
 			System.out.println(s);
-			logHtml(appendStyleParagraph(s, style), false);
+			log(appendStyleParagraph(s, style), false);
 		} else {
 			log(s);
 		}
@@ -86,27 +107,11 @@ public class Reporter extends org.testng.Reporter {
 			newS = appendStyleParagraph(newS, style);
 		}
 		if (style != Style.REGULAR || color != null) {
-			logHtml(newS, false);
+			log(newS, false);
 			System.out.println(s);
 		} else {
 			log(s);
 		}
-	}
-
-	public static void logHtml(String htmlS, boolean logToStandardOut) {
-		setEscapeHtml(false);
-		log(toHtml(htmlS), logToStandardOut);
-		setEscapeHtml(true);
-
-	}
-
-	/**
-	 * Appending <code>htmlS</code> as HTML code to the report
-	 * 
-	 * @param htmlS
-	 */
-	public static void logHtml(String htmlS) {
-		logHtml(htmlS, true);
 	}
 
 	/**
@@ -122,9 +127,24 @@ public class Reporter extends org.testng.Reporter {
 		log(title, body, null);
 	}
 
+	/**
+	 * Adds toggle element to the report
+	 * 
+	 * @param title
+	 *            Will appear as link. If none given the link will appear with
+	 *            the test 'link'
+	 * @param body
+	 *            Will appear when clicking on the title.
+	 * @param color
+	 *            The color of the link element
+	 */
 	public static void log(String title, String body, Color color) {
 		if (null == title) {
 			title = "link";
+		}
+		System.out.println(title + "\n");
+		if (body != null) {
+			System.out.println(body + "\n");
 		}
 		title = appendColorParagraph(title, color);
 		if (null == body || body.isEmpty()) {
@@ -146,12 +166,12 @@ public class Reporter extends org.testng.Reporter {
 		toggleElement.append("' style='display: none;'>");
 		toggleElement.append(body);
 		toggleElement.append("</div>");
-		logHtml(toggleElement.toString());
+		log(toggleElement.toString(), false);
 
 	}
 
 	private static String toHtml(String str) {
-		return str.replace("\n", "<br>");
+		return str.replace("\n", "<br/>");
 	}
 
 	/**
@@ -194,7 +214,7 @@ public class Reporter extends org.testng.Reporter {
 			title = file.getName();
 		}
 		System.out.println(title);
-		logHtml("<a href='" + newFile.getName() + "'>" + title + "</a>", false);
+		log("<a href='" + newFile.getName() + "'>" + title + "</a>", false);
 	}
 
 }
