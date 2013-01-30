@@ -1,14 +1,15 @@
-package org.jsystemtest.unit;
+package org.jsystemtest.integration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import org.jsystemtest.infra.report.Reporter;
 import org.jsystemtest.infra.report.Reporter.Color;
 import org.jsystemtest.infra.report.Reporter.Style;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-public class IntegrationTests {
+public class ReporterTests {
 
 	@Test
 	public void testComplexHTMLReports() {
@@ -30,10 +31,10 @@ public class IntegrationTests {
 
 	@Test
 	public void testReportColors() {
-		Reporter.log("In red", null, Color.RED);
-		Reporter.log("In blue", null, Color.BLUE);
-		Reporter.log("In yellow", null, Color.YELLOW);
-		Reporter.log("In green", null, Color.GREEN);
+		Reporter.log("In red", Style.REGULAR, Color.RED);
+		Reporter.log("In blue", Style.REGULAR, Color.BLUE);
+		Reporter.log("In yellow", Style.REGULAR, Color.YELLOW);
+		Reporter.log("In green", Style.REGULAR, Color.GREEN);
 
 		Reporter.log("In red", Style.BOLD, Color.RED);
 		Reporter.log("In blue", Style.BOLD, Color.BLUE);
@@ -45,6 +46,28 @@ public class IntegrationTests {
 		Reporter.log("In yellow", Style.ITALIC, Color.YELLOW);
 		Reporter.log("In green", Style.ITALIC, Color.GREEN);
 
+	}
+
+	@Test
+	public void testToggle() {
+		StringBuilder body = new StringBuilder();
+		for (int i = 0; i < 10; i++) {
+			body.append("Line ").append(i).append(" ");
+			Random r = new Random();
+			for (int j = 0; j < 50; j++) {
+				body.append((char) (r.nextInt(26) + 'a'));
+			}
+			body.append("\n");
+		}
+		Reporter.log("This is the title", body.toString());
+	}
+
+	@Test
+	public void testToggleWithColor() {
+		final String body = "Body with one <b>bold</b> element";
+		Reporter.log("The title should appear in GREEN", body, Color.GREEN);
+		Reporter.log("The title should appear in RED", body, Color.RED);
+		Reporter.log("The title should appear in YELLOW", body, Color.YELLOW);
 	}
 
 	@Test

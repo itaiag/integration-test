@@ -24,7 +24,12 @@ public class BddExecutor {
 		try {
 			final Method method = aClass.getMethod(stepName, new Class[] {});
 			final Step step = method.getAnnotation(org.jsystemtest.infra.bdd.Step.class);
-			Reporter.log((null == step) ? "Step description is not available" : step.description(), Style.BOLD, Color.BLUE);
+			if (null == step) {
+				Reporter.log("Step description is not available", Style.BOLD, Color.RED);
+			} else {
+				Reporter.log(step.description(), Style.REGULAR, Color.BLUE);
+
+			}
 
 		} catch (Exception e) {
 			Reporter.log("Step defintion is not available", Style.BOLD, Color.RED);

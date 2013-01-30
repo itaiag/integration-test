@@ -2,6 +2,7 @@ package org.jsystemtest.infra.report;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 
@@ -18,7 +19,7 @@ public class Reporter extends org.testng.Reporter {
 	}
 
 	public enum Style {
-		BOLD("b"), ITALIC("i");
+		REGULAR("r"), BOLD("b"), ITALIC("i");
 
 		private final String value;
 
@@ -38,7 +39,7 @@ public class Reporter extends org.testng.Reporter {
 	 * @param s
 	 */
 	public static void log(String s) {
-		log(s, true);
+		log(toHtml(s), true);
 	}
 
 	public static void log(final String s, Style style) {
@@ -62,6 +63,9 @@ public class Reporter extends org.testng.Reporter {
 	}
 
 	private static String appendColorParagraph(String s, Color color) {
+		if (color == null) {
+			return s;
+		}
 		final StringBuilder sb = new StringBuilder();
 		sb.append("<p style='color:").append(color.name()).append("'>");
 		sb.append(s);
@@ -72,13 +76,16 @@ public class Reporter extends org.testng.Reporter {
 
 	public static void log(final String s, Style style, Color color) {
 		String newS = s;
+		if (null == style) {
+			style = Style.REGULAR;
+		}
 		if (null != color) {
 			newS = appendColorParagraph(newS, color);
 		}
-		if (null != style) {
+		if (style != Style.REGULAR) {
 			newS = appendStyleParagraph(newS, style);
 		}
-		if (style != null || color != null) {
+		if (style != Style.REGULAR || color != null) {
 			logHtml(newS, false);
 			System.out.println(s);
 		} else {
@@ -88,7 +95,7 @@ public class Reporter extends org.testng.Reporter {
 
 	public static void logHtml(String htmlS, boolean logToStandardOut) {
 		setEscapeHtml(false);
-		log(htmlS, logToStandardOut);
+		log(toHtml(htmlS), logToStandardOut);
 		setEscapeHtml(true);
 
 	}
@@ -100,6 +107,51 @@ public class Reporter extends org.testng.Reporter {
 	 */
 	public static void logHtml(String htmlS) {
 		logHtml(htmlS, true);
+	}
+
+	/**
+	 * Adds toggle element to the report
+	 * 
+	 * @param title
+	 *            Will appear as link. If none given the link will appear with
+	 *            the test 'link'
+	 * @param body
+	 *            Will appear when clicking on the title.
+	 */
+	public static void log(String title, String body) {
+		log(title, body, null);
+	}
+
+	public static void log(String title, String body, Color color) {
+		if (null == title) {
+			title = "link";
+		}
+		title = appendColorParagraph(title, color);
+		if (null == body || body.isEmpty()) {
+			log(title);
+			return;
+		}
+		StringBuilder toggleElement = new StringBuilder();
+		final long id = System.currentTimeMillis() + new Random().nextInt(10000);
+
+		// Creating link
+		toggleElement.append(" <a href=\"javascript:toggleElement('");
+		toggleElement.append(id);
+		toggleElement.append("', 'block')\" title=\"Click to expand/collapse\"><b>");
+		toggleElement.append(title).append("</b></a><br>");
+
+		// Creating body
+		toggleElement.append("<div class='stackTrace' id='");
+		toggleElement.append(id);
+		toggleElement.append("' style='display: none;'>");
+		toggleElement.append(body);
+		toggleElement.append("</div>");
+		logHtml(toggleElement.toString());
+
+	}
+
+	private static String toHtml(String str) {
+		return str.replace("\n", "<br>");
 	}
 
 	/**
@@ -142,7 +194,7 @@ public class Reporter extends org.testng.Reporter {
 			title = file.getName();
 		}
 		System.out.println(title);
-		logHtml("<a href='" + newFile.getName() + "'>" + title + "</a>",false);
+		logHtml("<a href='" + newFile.getName() + "'>" + title + "</a>", false);
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.jsystemtest.infra.assertion;
 
-import org.testng.Reporter;
+import org.jsystemtest.infra.report.Reporter;
+import org.jsystemtest.infra.report.Reporter.Color;
 
 /**
  * Class for comparing between actual and expected states
@@ -23,6 +24,11 @@ public class Assert extends org.testng.Assert {
 	 *             If assertion fails
 	 */
 	static public void assertLogic(final Object actual, final AbstractAssertionLogic logic) throws Exception {
+		assertLogicHappens(actual, logic, 0);
+	}
+
+	static public void assertLogicHappens(final Object actual, final AbstractAssertionLogic logic, final long timeout)
+			throws Exception {
 		if (null == actual) {
 			throw new IllegalArgumentException("Actual can't be null");
 		}
@@ -30,27 +36,30 @@ public class Assert extends org.testng.Assert {
 			throw new IllegalArgumentException("logic can't be null");
 		}
 		if (!logic.getActualClass().isAssignableFrom(actual.getClass())) {
-			Reporter.log("Actual type " + actual.getClass().getSimpleName() + " is not applicable for assertion logic", true);
+			Reporter.log("Actual type " + actual.getClass().getSimpleName() + " is not applicable for assertion logic");
 			throw new IllegalStateException("Actual type " + actual.getClass().getSimpleName()
 					+ " is not applicable for assertion logic");
 		}
 		logic.setActual(actual);
 		try {
 			logic.doAssertion();
-			if (logic.isStatus()) {
-				Reporter.log("Assertion success: " + logic.getTitle(), true);
-			} else {
-				Reporter.log("Assertion failure: " + logic.getTitle(), true);
-			}
-			if (logic.getMessage() != null) {
-				Reporter.log(logic.getMessage(), true);
-			}
+			Reporter.log(logic.isStatus() ? "Assertion success: " : "Assertion failure: " + logic.getTitle(), logic.getMessage(),
+					logic.isStatus() ? Color.GREEN : Color.RED);
 			if (!logic.isStatus()) {
 				throw new AssertionError(logic.getTitle());
 			}
 		} catch (Throwable t) {
-			Reporter.log("Assertion process failed due to " + t.getMessage());
-			throw new AssertionError("Assertion process failed ");
+			if (timeout <= 0) {
+				Reporter.log("Assertion process failed due to " + t.getMessage());
+				throw new AssertionError("Assertion process failed ");
+			} else {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException interruptedException) {
+
+				}
+				assertLogicHappens(actual, logic, timeout - 3000);
+			}
 		}
 	}
 

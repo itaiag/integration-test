@@ -5,6 +5,8 @@ import javax.jms.Message;
 import junit.framework.Assert;
 
 import org.jsystemtest.AbstractIntegrationTestCase;
+import org.jsystemtest.infra.bdd.BddI;
+import org.jsystemtest.infra.bdd.Step;
 import org.jsystemtest.systemModule.jms.JmsSystemModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.support.converter.MessageType;
@@ -42,12 +44,29 @@ public class JmsSystemModuleTests extends AbstractIntegrationTestCase {
 
 	@Test
 	public void testSendRecieveMessage() throws Exception {
-		jms.sendMessage(QUEUE_NAME, MessageType.TEXT, "testSendRecieveMessage0");
-		Message m = jms.receiveMessage(QUEUE_NAME, MESSAGE_TIMEOUT);
-		Assert.assertNotNull(m);
-		jms.sendMessage(QUEUE_NAME, MessageType.TEXT, "testSendRecieveMessage0");
-		m = jms.receiveMessage(QUEUE_NAME, MESSAGE_TIMEOUT);
-		Assert.assertNotNull(m);
+		run(new BddI() {
+			Message m;
+
+			@Override
+			public void given() throws Exception {
+
+			}
+
+			@Override
+			@Step(description = "When we send message from type text")
+			public void when() throws Exception {
+				jms.sendMessage(QUEUE_NAME, MessageType.TEXT, "testSendRecieveMessage0");
+				m = jms.receiveMessage(QUEUE_NAME, MESSAGE_TIMEOUT);
+
+			}
+
+			@Override
+			@Step(description = "Then we receive the message from queue")
+			public void then() throws Exception {
+				Assert.assertNotNull(m);
+			}
+		});
+
 		Reporter.log("Success", true);
 	}
 

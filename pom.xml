@@ -10,20 +10,27 @@
 				<groupId>org.apache.activemq.tooling</groupId>
 				<artifactId>maven-activemq-plugin</artifactId>
 				<version>5.7.0</version>
-				<configuration>
-					<configUri>xbean:file:../src/main/resources/activemq.xml</configUri>
-					<fork>false</fork>
-					<systemProperties>
-						<property>
-							<name>javax.net.ssl.keyStorePassword</name>
-							<value>password</value>
-						</property>
-						<property>
-							<name>org.apache.activemq.default.directory.prefix</name>
-							<value>./target/</value>
-						</property>
-					</systemProperties>
-				</configuration>
+				<executions>
+					<execution>
+						<id>configure-activemq</id>
+						<phase>pre-integration-test</phase>
+						<configuration>
+							<configUri>xbean:file:../src/main/resources/activemq.xml</configUri>
+							<fork>false</fork>
+							<systemProperties>
+								<property>
+									<name>javax.net.ssl.keyStorePassword</name>
+									<value>password</value>
+								</property>
+								<property>
+									<name>org.apache.activemq.default.directory.prefix</name>
+									<value>./target/</value>
+								</property>
+							</systemProperties>
+						</configuration>
+
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -56,26 +63,33 @@
 				</executions>
 			</plugin>
 			<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
-						<executions>
-							<execution>
-								<id>prepare-environment</id>
-								<phase>package</phase>
-								<configuration>
-									<target>
-										<echo>Preparing environment</echo>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>prepare-environment</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<echo>Preparing environment</echo>
 
-										<echo>Extracting resources</echo>
-										<unzip src="resources/resources.zip" dest="${project.build.directory}" />
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
+								<echo>Extracting resources</echo>
+								<unzip src="resources/resources.zip" dest="${project.build.directory}" />
+
+								<echo>Launching JMS server</echo>
+								<exec
+									executable="${project.build.directory}/resources/apache-activemq-5.7.0/bin/activemq.bat"
+									spawn="true" />
+								<sleep milliseconds="10" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+
+				</executions>
+			</plugin>
 			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.6</version> 
 				<executions> <execution> <id>runExternalScript</id> <phase>pre-integration-test</phase> 
 				<configuration> <target> <exec executable="script.bat" spawn="true"> </exec> 
