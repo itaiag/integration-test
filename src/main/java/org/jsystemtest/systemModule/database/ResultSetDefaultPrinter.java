@@ -14,7 +14,6 @@ public class ResultSetDefaultPrinter implements ResultSetPrinter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.rsa.fa.blackbox.integration.database.ResultSetPrinter#print(java.util.List)
 	 */
 	@Override
 	public void print(final List<Map<String, Object>> resultList) {
