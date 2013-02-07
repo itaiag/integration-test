@@ -13,6 +13,8 @@ import org.apache.commons.io.FileUtils;
  * 
  */
 public class Reporter extends org.testng.Reporter {
+	private static boolean inToggle;
+
 	static {
 		// Allowing adding HTML to the report
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
@@ -140,16 +142,30 @@ public class Reporter extends org.testng.Reporter {
 	 */
 	public static void log(String title, String body, Color color) {
 		if (null == title) {
-			title = "link";
+			title = "title";
 		}
 		System.out.println(title + "\n");
 		if (body != null) {
 			System.out.println(body + "\n");
 		}
-		title = appendColorParagraph(title, color);
 		if (null == body || body.isEmpty()) {
+			title = appendColorParagraph(title, color);
 			log(title);
 			return;
+		}
+		startLogToggle(title, color);
+		log(body);
+		stopLogToggle();
+
+	}
+	
+	public static void startLogToggle(String title){
+		if (inToggle) {
+			return;
+		}
+		inToggle = true;
+		if (null == title) {
+			title = "link";
 		}
 		StringBuilder toggleElement = new StringBuilder();
 		final long id = System.currentTimeMillis() + new Random().nextInt(10000);
@@ -164,10 +180,19 @@ public class Reporter extends org.testng.Reporter {
 		toggleElement.append("<div class='stackTrace' id='");
 		toggleElement.append(id);
 		toggleElement.append("' style='display: none;'>");
-		toggleElement.append(body);
-		toggleElement.append("</div>");
 		log(toggleElement.toString(), false);
+	}
 
+	public static void startLogToggle(String title, Color color) {
+		startLogToggle(appendColorParagraph(title, color));
+	}
+
+	public static void stopLogToggle() {
+		if (!inToggle) {
+			return;
+		}
+		log("</div>", false);
+		inToggle = false;
 	}
 
 	private static String toHtml(String str) {

@@ -87,15 +87,31 @@ public class ReporterTests {
 
 	@Test
 	public void testToggle() {
-		String body = generateLines(50, 10);
-		Reporter.log("This is the title", body.toString());
-		Reporter.log("Null body", "", Color.BLUE);
-		Reporter.log(null, "", Color.BLUE);
+		Reporter.log("Simple toggle", generateLines(50, 10));
+		Reporter.startLogToggle("Toggle on some lines - No color");
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.stopLogToggle();
+
+		Reporter.startLogToggle("Toggle on some lines - Green title", Color.GREEN);
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.log(generateLines(1, 40));
+		Reporter.stopLogToggle();
+
+		Reporter.log("Toggle with empty body and color blue", "", Color.BLUE);
+
+		Reporter.log("About to test toggle with null title. The title should be changed to 'title' automatically");
+		Reporter.log(null, "Some body", Color.BLUE);
 	}
 
 	private String generateLines(int numOfLines, int lengthOfLine) {
 		StringBuilder body = new StringBuilder();
-		;
 		for (int i = 0; i < numOfLines; i++) {
 			body.append("Line ").append(i).append(" ");
 			Random r = new Random();
