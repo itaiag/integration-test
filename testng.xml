@@ -1,6 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
 <suite name="Sanity" verbose="1">
+	<test name="Groovy">
+		<classes>
+			<class name="org.jsystemtest.integration.GroovyTest" />
+		</classes>
+	</test>
 	<test name="JMS">
 		<classes>
 			<class name="org.jsystemtest.integration.JmsSystemModuleTests" />
@@ -22,4 +26,3 @@
 		</packages>
 	</test>
 </suite>
- 

@@ -63,6 +63,19 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generateTestStubs</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
 				<executions>
@@ -72,10 +85,8 @@
 						<configuration>
 							<target>
 								<echo>Preparing environment</echo>
-
 								<echo>Extracting resources</echo>
 								<unzip src="resources/resources.zip" dest="${project.build.directory}" />
-
 								<echo>Launching JMS server</echo>
 								<exec
 									executable="${project.build.directory}/resources/apache-activemq-5.7.0/bin/activemq.bat"
@@ -87,9 +98,11 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
-
 				</executions>
 			</plugin>
+
+
+
 			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.6</version> 
 				<executions> <execution> <id>runExternalScript</id> <phase>pre-integration-test</phase> 
 				<configuration> <target> <exec executable="script.bat" spawn="true"> </exec> 
@@ -119,6 +132,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
+
 					<properties>
 						<property>
 							<name>usedefaultlisteners</name>
@@ -143,7 +157,47 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.groovy.maven
+										</groupId>
+										<artifactId>
+											gmaven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0,)
+										</versionRange>
+										<goals>
+											<goal>testCompile</goal>
+											<goal>
+												generateTestStubs
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<dependencies>
 		<dependency>
@@ -224,5 +278,18 @@
 			<artifactId>activemq-all</artifactId>
 			<version>5.6.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy.maven.runtime</groupId>
+			<artifactId>gmaven-runtime-1.6</artifactId>
+			<version>1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
 	</dependencies>
 </project>
